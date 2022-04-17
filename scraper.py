@@ -38,6 +38,11 @@ for elem in articles:
     print(elem["href"])'''
 
 
+#********************** Deslizamiento pausado (1 segundo) para permitir que el contenido se cargue (yahoo funciona asi) ***
+# ********************* El resultado trajo alrededor de 3 veces mas contenido. Quedo cerca al XPATH del
+#********************** navegador. 
+#*********** FUENTE: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
+
 driver.maximize_window()
 time.sleep(1)
 #We make a slow scroll to the end of the page
