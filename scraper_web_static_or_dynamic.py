@@ -1,4 +1,5 @@
 import requests
+from lxml import etree
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -26,18 +27,23 @@ class Scraper():
 
         #we get the internal html code of the body        
         body = self.driver.execute_script("return document.body")
-        source = body.get_attribute('innerHTML') 
-        self.soup = BeautifulSoup(source, "html.parser")
+        page_source = body.get_attribute('innerHTML') 
+        #self.soup = BeautifulSoup(source, "html.parser")
+        self.beautifulsoup_connect(page_source)
 
     
     def scraper_static_page(self, page):
 
         #self.connect_browser()
-        page_scraping = requests.get(page)
+        page_source = requests.get(page)
         #self.driver.get(page)
         #self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        self.soup = BeautifulSoup(page_scraping.text, 'html.parser')
-        
+        #self.soup = BeautifulSoup(page_source.text, 'html.parser')
+        self.beautifulsoup_connect(page_source.text)
+
+    def beautifulsoup_connect(self, page_source):
+        self.soup = BeautifulSoup(page_source, 'html.parser')
+
 
     def scraping_all_tag(self, tag):
 
@@ -47,10 +53,15 @@ class Scraper():
 
     def slow_scroll(self):
 
-        #** Deslizamiento pausado (1 segundo) para permitir que el contenido se cargue (sitios dinamicos)
-        #** El resultado trajo alrededor de 3 veces mas que el realizado con el metodo estatico. Quedo cerca al 
-        # XPATH del navegador.
-        #*FUENTE: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
+        #** Deslizamiento pausado (1 segundo) para permitir que el contenido se cargue (sitios dinamicos).
+        #Permite el scroll "infinito"
+        
+        ###### PRUEBAS CON EL SITIO: https://finance.yahoo.com
+        # Este resultado trajo mas o menos 3 veces que el realizado con el metodo estatico.
+        #TENER EN CUENTA: XPATH del navegador (CARGADO COMPLETAMENTE) trae mas datos sin embargo este metodo 
+        #trae una cantidad relativamente cerca.
+        
+        #FUENTE DEL CODIGO: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
 
         self.driver.maximize_window()
         time.sleep(1)
@@ -67,28 +78,34 @@ class Scraper():
             iter+=1
     
 
-    def get_attribute(self, scraping_tag, tag_attribute):
+    def get_by_attribute(self, scraping_tag, tag_attribute):
         list_attribute = []
         for elem in scraping_tag:
             if elem.has_attr(tag_attribute):
                 list_attribute.append(elem[tag_attribute])
         
         return list_attribute
-        
+
+
+    def get_by_xpath(self, var_xpath):
+
+        dom = etree.HTML(str(self.soup))
+        return dom.xpath(var_xpath)
+
 
     def exit_browser(self):
         self.driver.quit()
 
 
+#El siguiente codigo es implementado para probar logica del programa
 if __name__ == "__main__":
-
 
     #Prueba sitio web estatico
     '''scraper = Scraper()
     scraper.scraper_static_page("https://www.dataquest.io")
     articles = scraper.scraping_all_tag('a')
     print(len(articles))
-    attribute = scraper.get_attribute(articles, "href")
+    attribute = scraper.get_by_attribute(articles, "href")
     print(attribute)'''
 
     #Prueba sitio web dinamico
@@ -97,6 +114,14 @@ if __name__ == "__main__":
     scraper.scraper_dynamic_page("https://finance.yahoo.com")
     articles = scraper.scraping_all_tag('a')
     print(len(articles))
-    attribute = scraper.get_attribute(articles, "href")
+    attribute = scraper.get_by_attribute(articles, "href")
+    scraper.exit_browser()'''
+    
+    #Prueba de expresion XPATH en sitio web dinamico
+    '''scraper = Scraper()
+    scraper.scraper_dynamic_page("https://finance.yahoo.com")
+    attribute = scraper.get_by_xpath('//div[contains(@class,"C(#959595)")]/span[1][starts-with(.,"Bloomberg")]/../..//a/@href')
+    print(len(attribute))
     print(attribute)
+
     scraper.exit_browser()'''
