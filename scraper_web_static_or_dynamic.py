@@ -16,7 +16,7 @@ class Scraper():
         self.options.headless = True
 
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
-        #El anterior comando se reemplazo por comando -> driver =  Chrome(executable_path='chromedriver.exe')
+        #El anterior comando se reemplazo por el comando -> driver =  Chrome(executable_path='chromedriver.exe')
 
 
     def scraper_dynamic_page(self, page):
@@ -28,17 +28,12 @@ class Scraper():
         #we get the internal html code of the body        
         body = self.driver.execute_script("return document.body")
         page_source = body.get_attribute('innerHTML') 
-        #self.soup = BeautifulSoup(source, "html.parser")
         self.beautifulsoup_connect(page_source)
 
     
     def scraper_static_page(self, page):
 
-        #self.connect_browser()
         page_source = requests.get(page)
-        #self.driver.get(page)
-        #self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        #self.soup = BeautifulSoup(page_source.text, 'html.parser')
         self.beautifulsoup_connect(page_source.text)
 
     def beautifulsoup_connect(self, page_source):
@@ -48,7 +43,6 @@ class Scraper():
     def scraping_all_tag(self, tag):
 
         return self.soup.find_all(tag)
-        #return self.soup.findAll(tag)
         
 
     def slow_scroll(self):
