@@ -10,7 +10,10 @@ import time
 
 class Scraper():
 
-    def connect_browser(self):
+    def __init__(self):
+        pass
+
+    def __connect_browser(self):
         try:
             #Ocultar el navegador (sin cabecera)
             self.options = ChromeOptions()
@@ -24,14 +27,15 @@ class Scraper():
 
     def scraper_dynamic_page(self, page):
         try:
-            self.connect_browser()
+            self.__connect_browser()
             self.driver.get(page)
-            self.slow_scroll()
+            self.__slow_scroll()
 
             #we get the internal html code of the body        
             body = self.driver.execute_script("return document.body")
             page_source = body.get_attribute('innerHTML') 
-            self.beautifulsoup_connect(page_source)
+            self.__beautifulsoup_connect(page_source)
+            self.__exit_browser()
         except:
             print("Error al realizar el scraping sobre web dinamica. Revise su URL")
 
@@ -39,12 +43,12 @@ class Scraper():
     def scraper_static_page(self, page):
         try:
             page_source = requests.get(page)
-            self.beautifulsoup_connect(page_source.text)
+            self.__beautifulsoup_connect(page_source.text)
         except:
             print("Error al realizar el scraping sobre web estatica. \n Revise su URL o intente con el metodo scraper_dynamic_page")
 
 
-    def beautifulsoup_connect(self, page_source):
+    def __beautifulsoup_connect(self, page_source):
         try:
             self.soup = BeautifulSoup(page_source, 'html.parser')
         except:
@@ -58,7 +62,7 @@ class Scraper():
             print("Error al realizar scraping con la etiqueta ", tag)
         
 
-    def slow_scroll(self):
+    def __slow_scroll(self):
         try:
 
             #** Deslizamiento pausado (1 segundo) para permitir que el contenido se cargue (sitios dinamicos).
@@ -120,7 +124,7 @@ class Scraper():
             print("Error al realizar busqueda de contenido en la etiqueta ", tag)
 
 
-    def exit_browser(self):
+    def __exit_browser(self):
         try:
             self.driver.quit()
         except:
