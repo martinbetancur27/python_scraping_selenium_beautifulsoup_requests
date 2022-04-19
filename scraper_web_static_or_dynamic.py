@@ -106,6 +106,19 @@ class Scraper():
             return dom.xpath(var_xpath)
         except:
             print("Error al realizar busqueda XPATH ", var_xpath)
+    
+
+    def get_content_tag(self, tag):
+        try:
+            texts = self.soup.find_all(tag)
+            list_texts = []
+            for text in texts:
+                list_texts.append(text.get_text())
+
+            return list_texts
+        except:
+            print("Error al realizar busqueda de contenido en la etiqueta ", tag)
+
 
     def exit_browser(self):
         try:
@@ -135,10 +148,18 @@ if __name__ == "__main__":
     scraper.exit_browser()'''
     
     #Prueba de expresion XPATH en sitio web dinamico
-    scraper = Scraper()
+    '''scraper = Scraper()
     scraper.scraper_dynamic_page("https://finance.yahoo.com")
     attribute = scraper.get_by_xpath('//div[contains(@class,"C(#959595)")]/span[1][starts-with(.,"Bloomberg")]/../..//a/@href')
     print(len(attribute))
     print(attribute)
+    scraper.exit_browser()'''
 
-    scraper.exit_browser()
+    #Prueba para imprimir contenido de etiqueta
+    '''scraper = Scraper()
+    scraper.scraper_static_page("https://www.dataquest.io/")
+    contents = scraper.get_content_tag("h3")
+    print(len(contents))
+    
+    for content in contents:
+        print(content)'''
