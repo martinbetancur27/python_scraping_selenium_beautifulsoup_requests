@@ -11,84 +11,107 @@ import time
 class Scraper():
 
     def connect_browser(self):
-        '''Ocultar el navegador (sin cabecera)'''
-        self.options = ChromeOptions()
-        self.options.headless = True
+        try:
+            #Ocultar el navegador (sin cabecera)
+            self.options = ChromeOptions()
+            self.options.headless = True
 
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
-        #El anterior comando se reemplazo por el comando -> driver =  Chrome(executable_path='chromedriver.exe')
+            self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
+            #El anterior comando se reemplazo por el comando -> driver =  Chrome(executable_path='chromedriver.exe')
+        except:
+            print("Error al conectar el driver del navegador")
 
 
     def scraper_dynamic_page(self, page):
+        try:
+            self.connect_browser()
+            self.driver.get(page)
+            self.slow_scroll()
 
-        self.connect_browser()
-        self.driver.get(page)
-        self.slow_scroll()
-
-        #we get the internal html code of the body        
-        body = self.driver.execute_script("return document.body")
-        page_source = body.get_attribute('innerHTML') 
-        self.beautifulsoup_connect(page_source)
+            #we get the internal html code of the body        
+            body = self.driver.execute_script("return document.body")
+            page_source = body.get_attribute('innerHTML') 
+            self.beautifulsoup_connect(page_source)
+        except:
+            print("Error al realizar el scraping sobre web dinamica. Revise su URL")
 
     
     def scraper_static_page(self, page):
+        try:
+            page_source = requests.get(page)
+            self.beautifulsoup_connect(page_source.text)
+        except:
+            print("Error al realizar el scraping sobre web estatica. \n Revise su URL o intente con el metodo scraper_dynamic_page")
 
-        page_source = requests.get(page)
-        self.beautifulsoup_connect(page_source.text)
 
     def beautifulsoup_connect(self, page_source):
-        self.soup = BeautifulSoup(page_source, 'html.parser')
+        try:
+            self.soup = BeautifulSoup(page_source, 'html.parser')
+        except:
+            print("Error al conectar con BeutifulSoup")
 
 
     def scraping_all_tag(self, tag):
-
-        return self.soup.find_all(tag)
+        try:
+            return self.soup.find_all(tag)
+        except:
+            print("Error al realizar scraping con la etiqueta ", tag)
         
 
     def slow_scroll(self):
+        try:
 
-        #** Deslizamiento pausado (1 segundo) para permitir que el contenido se cargue (sitios dinamicos).
-        #Permite el scroll "infinito"
-        
-        ###### PRUEBAS CON EL SITIO: https://finance.yahoo.com
-        # Este resultado trajo mas o menos 3 veces que el realizado con el metodo estatico.
-        #TENER EN CUENTA: XPATH del navegador (CARGADO COMPLETAMENTE) trae mas datos sin embargo este metodo 
-        #trae una cantidad relativamente cerca.
-        
-        #FUENTE DEL CODIGO: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
+            #** Deslizamiento pausado (1 segundo) para permitir que el contenido se cargue (sitios dinamicos).
+            #Permite el scroll "infinito"
+            
+            ###### PRUEBAS CON EL SITIO: https://finance.yahoo.com
+            # Este resultado trajo mas o menos 3 veces que el realizado con el metodo estatico.
+            #TENER EN CUENTA: XPATH del navegador (CARGADO COMPLETAMENTE) trae mas datos sin embargo este metodo 
+            #trae una cantidad relativamente cerca.
+            
+            #FUENTE DEL CODIGO: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
 
-        self.driver.maximize_window()
-        time.sleep(1)
-        #We make a slow scroll to the end of the page
-        iter=1
-        while True:
-            scrollHeight = self.driver.execute_script("return document.documentElement.scrollHeight")
-            Height=250*iter
-            self.driver.execute_script("window.scrollTo(0, " + str(Height) + ");")
-            if Height > scrollHeight:
-                print('End of page')
-                break
+            self.driver.maximize_window()
             time.sleep(1)
-            iter+=1
-    
+            #We make a slow scroll to the end of the page
+            iter=1
+            while True:
+                scrollHeight = self.driver.execute_script("return document.documentElement.scrollHeight")
+                Height=250*iter
+                self.driver.execute_script("window.scrollTo(0, " + str(Height) + ");")
+                if Height > scrollHeight:
+                    print('End of page')
+                    break
+                time.sleep(1)
+                iter+=1
+        except:
+            print("Error al realizar el scroll dinamico")
+
 
     def get_by_attribute(self, scraping_tag, tag_attribute):
-        list_attribute = []
-        for elem in scraping_tag:
-            if elem.has_attr(tag_attribute):
-                list_attribute.append(elem[tag_attribute])
-        
-        return list_attribute
+        try:
+            list_attribute = []
+            for elem in scraping_tag:
+                if elem.has_attr(tag_attribute):
+                    list_attribute.append(elem[tag_attribute])
+            
+            return list_attribute
+        except:
+            print("Error al obtener el atributo ", tag_attribute)
 
 
     def get_by_xpath(self, var_xpath):
-
-        dom = etree.HTML(str(self.soup))
-        return dom.xpath(var_xpath)
-
+        try:
+            dom = etree.HTML(str(self.soup))
+            return dom.xpath(var_xpath)
+        except:
+            print("Error al realizar busqueda XPATH ", var_xpath)
 
     def exit_browser(self):
-        self.driver.quit()
+        try:
+            self.driver.quit()
+        except:
+            print("Error al cerrar el driver del navegador")
 
 
 #El siguiente codigo es implementado para probar logica del programa
@@ -112,10 +135,10 @@ if __name__ == "__main__":
     scraper.exit_browser()'''
     
     #Prueba de expresion XPATH en sitio web dinamico
-    '''scraper = Scraper()
+    scraper = Scraper()
     scraper.scraper_dynamic_page("https://finance.yahoo.com")
     attribute = scraper.get_by_xpath('//div[contains(@class,"C(#959595)")]/span[1][starts-with(.,"Bloomberg")]/../..//a/@href')
     print(len(attribute))
     print(attribute)
 
-    scraper.exit_browser()'''
+    scraper.exit_browser()
