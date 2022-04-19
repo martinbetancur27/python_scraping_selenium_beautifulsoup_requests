@@ -35,7 +35,8 @@ class Scraper():
             body = self.driver.execute_script("return document.body")
             page_source = body.get_attribute('innerHTML') 
             self.__beautifulsoup_connect(page_source)
-            self.__exit_browser()
+            #Sale del controlador y cierra todas las ventanas asociadas.
+            self.driver.quit() 
         except:
             print("Error al realizar el scraping sobre web dinamica. Revise su URL")
 
@@ -123,12 +124,6 @@ class Scraper():
         except:
             print("Error al realizar busqueda de contenido en la etiqueta ", tag)
 
-
-    def __exit_browser(self):
-        try:
-            self.driver.quit()
-        except:
-            print("Error al cerrar el driver del navegador")
 
 
 #El siguiente codigo es implementado para probar logica del programa
