@@ -10,8 +10,6 @@ import time
 
 class Scraper():
 
-    def __init__(self):
-        pass
 
     def __connect_browser(self):
         #No recibe ningun parametro
