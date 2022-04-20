@@ -122,6 +122,21 @@ class Scraper():
             print("Error al realizar el scroll dinamico")
 
 
+#los siguientes metodos son para llamar metodos de BeautifulSoup
+    def bs_find_all(self, *args, **kwargs):
+        try:
+            return self.soup.find_all(args)
+        except:
+            print("Error al realizar busqueda con el atributo ", args)
+        
+
+    def bs_find(self, *args, **kwargs):
+        try:
+            return self.soup.find(args)
+        except:
+            print("Error al realizar busqueda con el atributo ", args)
+
+#Los siguientes metodos son para hacer la busqueda mas natural
     def get_all_tag(self, tag):
         #Recibir etiqueta
         #Filtrar por la etiqueta
