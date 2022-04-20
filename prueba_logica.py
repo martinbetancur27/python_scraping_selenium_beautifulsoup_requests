@@ -6,10 +6,10 @@ if __name__ == "__main__":
     scraper = Scraper()
 
     #Prueba sitio web dinamico
-    '''scraper.scraper_dynamic_page("https://finance.yahoo.com")
+    scraper.scraper_dynamic_page("https://finance.yahoo.com")
     attribute = scraper.get_attribute_by_tag("a", "href")
     print(len(attribute))
-    print(attribute)'''
+    print(attribute)
     
     #Prueba sitio web estatico
     #Obtener valor de atributo de una etiqueta
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     print(len(articles))
     print(articles)'''
 
-    #Ejecutar el metodo find_all del modulo BeautifulSoup
+    #Ejecutar el metodo find_all del paquete BeautifulSoup (BS)
     '''scraper.scraper_static_page("https://www.dataquest.io")
     articles = scraper.bs_find_all('a')
     print(len(articles))
