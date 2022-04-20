@@ -201,37 +201,3 @@ class Scraper():
             return list_texts
         except:
             print("Error al realizar busqueda de contenido en la etiqueta ", tag)
-
-
-#El siguiente codigo es implementado para probar logica del programa
-#if __name__ == "__main__":
-
-    #Prueba sitio web estatico
-    '''scraper = Scraper()
-    scraper.scraper_static_page("https://www.dataquest.io")
-    attribute = scraper.get_attribute_by_tag("a", "href")
-    print(attribute)'''
-
-    #Prueba sitio web dinamico
-    
-    '''scraper = Scraper()
-    scraper.scraper_dynamic_page("https://finance.yahoo.com")
-    attribute = scraper.get_attribute_by_tag("a", "href")
-    scraper.exit_browser()'''
-    
-    #Prueba de expresion XPATH en sitio web dinamico
-    '''scraper = Scraper()
-    scraper.scraper_dynamic_page("https://finance.yahoo.com")
-    attribute = scraper.get_by_xpath('//div[contains(@class,"C(#959595)")]/span[1][starts-with(.,"Bloomberg")]/../..//a/@href')
-    print(len(attribute))
-    print(attribute)
-    scraper.exit_browser()'''
-
-    #Prueba para imprimir contenido de etiqueta
-    '''scraper = Scraper()
-    scraper.scraper_static_page("https://www.dataquest.io/")
-    contents = scraper.get_content_tag("h3")
-    print(len(contents))
-    
-    for content in contents:
-        print(content)'''
