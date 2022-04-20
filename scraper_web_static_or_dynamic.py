@@ -123,16 +123,28 @@ class Scraper():
 #los siguientes metodos son para llamar metodos de BeautifulSoup
     def bs_find_all(self, *args, **kwargs):
         try:
-            return self.soup.find_all(args)
+            return self.soup.find_all(*args, **kwargs)
         except:
-            print("Error al realizar busqueda con el atributo ", args)
+            print("(bs_find_all) Error al realizar busqueda con el atributo ", args)
         
 
     def bs_find(self, *args, **kwargs):
         try:
-            return self.soup.find(args)
+            return self.soup.find(*args, **kwargs)
         except:
-            print("Error al realizar busqueda con el atributo ", args)
+            print("(bs_find) Error al realizar busqueda con el atributo ", args)
+    
+
+    def bs_find_all_get_text(self, *args, **kwargs):
+        try:
+            texts = self.soup.find_all(*args, **kwargs)
+            list_texts = []
+            for text in texts:
+                list_texts.append(text.get_text())
+
+            return list_texts
+        except:
+            print("(bs_find_all_get_text) Error al realizar busqueda con el atributo ", args)
 
 #Los siguientes metodos son para hacer la busqueda mas natural
     def get_all_tag(self, tag):
