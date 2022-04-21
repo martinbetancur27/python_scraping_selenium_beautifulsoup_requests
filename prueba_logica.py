@@ -6,10 +6,10 @@ if __name__ == "__main__":
     scraper = Scraper()
 
     #Prueba sitio web dinamico
-    '''scraper.scraper_dynamic_page("https://finance.yahoo.com")
-    attribute = scraper.get_attribute_by_tag("a", "href")
+    scraper.scraper_dynamic_page("https://finance.yahoo.com")
+    attribute = scraper.get_by_xpath('//div[contains(@class,"C(#959595)")]/span[1][starts-with(.,"Bloomberg")]/../..//a/@href')
+    print(attribute)
     print(len(attribute))
-    print(attribute)'''
     
     #Prueba sitio web estatico
     #Obtener valor de atributo de una etiqueta
