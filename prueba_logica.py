@@ -10,6 +10,7 @@ if __name__ == "__main__":
     attribute = scraper.get_attribute_by_tag("a", "href")
     print(len(attribute))
     print(attribute)
+
     
     #Prueba sitio web estatico
     #Obtener valor de atributo de una etiqueta
@@ -35,5 +36,3 @@ if __name__ == "__main__":
     contents = scraper.bs_find_all_get_text("em")
     for content in contents:
         print(content)'''
-
-    

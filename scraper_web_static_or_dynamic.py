@@ -11,7 +11,7 @@ import time
 class Scraper():
 
 
-    def __connect_browser(self):
+    def __connect_browser(self, page):
         #No recibe ningun parametro
         #Hace la conexion con el webdriver de Chrome.
         #No retorna ningun valor
@@ -30,7 +30,7 @@ class Scraper():
             self.options.headless = True
 
             self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
-            #El anterior comando se reemplazo por el comando -> driver =  Chrome(executable_path='chromedriver.exe')
+            self.driver.get(page)
         except:
             print("Error al conectar el driver del navegador")
 
@@ -47,8 +47,7 @@ class Scraper():
             #Sale del controlador y cierra todas las ventanas asociadas.
         #No retorna ningun valor
         try:
-            self.__connect_browser()
-            self.driver.get(page)
+            self.__connect_browser(page)
             self.__slow_scroll()     
             body = self.driver.execute_script("return document.body")
             page_source = body.get_attribute('innerHTML') 
@@ -102,7 +101,7 @@ class Scraper():
             #trae una cantidad relativamente cerca.
             
             #FUENTE DEL CODIGO: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
-
+            print("Por favor esperar... La pagina puede ser muy extensa")
             self.driver.maximize_window()
             time.sleep(1)
             #We make a slow scroll to the end of the page
