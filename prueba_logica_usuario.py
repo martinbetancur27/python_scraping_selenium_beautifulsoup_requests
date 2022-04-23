@@ -1,39 +1,17 @@
 from scraper_static_page import ScraperStaticPage
 from scraper_dynamic_page import ScraperDynamicPage
-
+import time
 
 def static_page(page):
 
     scraper = ScraperStaticPage(page)
-    metodo, busqueda = opciones_busqueda()
-    
-    #https://www.delftstack.com/howto/python/python-call-function-from-a-string/
-    #https://www.quora.com/Is-there-a-way-to-call-a-function-in-python-but-replace-the-name-of-a-function-with-a-defined-variable
-    contents = getattr(scraper, metodo)(busqueda) 
-    
-    print("\n** RESULTADO **\n")
-
-    #Validar si el resultado es una lista para dar una impresion mas legible
-    if isinstance(contents, list):
-        for content in contents:
-            print(content)
-    else:
-        print(contents)
-
+    realizar_busqueda(scraper, page)
+            
 
 def dynamic_page(page):
-
+    print("\nPor favor espere, la pagina puede ser muy extensa")
     scraper = ScraperDynamicPage(page)
-    metodo, busqueda = opciones_busqueda()
-
-    contents = getattr(scraper, metodo)(busqueda) 
-
-    #Validar si el resultado es una lista para dar una impresion mas legible
-    if isinstance(contents, list):
-        for content in contents:
-            print(content)
-    else:
-        print(contents)
+    realizar_busqueda(scraper, page)
 
 
 def opciones_busqueda():
@@ -73,6 +51,36 @@ def opciones_busqueda():
     #Retornar el metodo y la busqueda que selecciono el usuario
     return metodo, busqueda
 
+def realizar_busqueda(scraper, page):
+
+    while (True):
+        metodo, busqueda = opciones_busqueda()
+        
+        #https://www.delftstack.com/howto/python/python-call-function-from-a-string/
+        #https://www.quora.com/Is-there-a-way-to-call-a-function-in-python-but-replace-the-name-of-a-function-with-a-defined-variable
+        contents = getattr(scraper, metodo)(busqueda) 
+        
+        print("\n** RESULTADO **\n")
+
+        #Validar si el resultado es una lista para dar una impresion mas legible
+        if isinstance(contents, list):
+            for content in contents:
+                print(content)
+        else:
+            print(contents)
+
+        print("\n*** Busqueda terminada ***")
+
+        #Esperar 3 segundos para ofrecer opcion de salida
+        time.sleep(3)
+        opcion_final = int(input("Por favor ingrese el numero:\n1. Realizar otra busqueda\n2.Salir\n---> "))
+
+        if opcion_final == 1:
+            print("Eleccion: realizar otra busqueda en: ", page)
+        else:
+            print("Eleccion: salir")
+            break
+
 def prueba_personalizada():
 
     page_url = str(input("Ingrese la URL: "))
@@ -86,6 +94,7 @@ def prueba_personalizada():
     else:
         print("Eleccion: pagina dinamica")
         dynamic_page(page_url)
+
 
 def run():
         
