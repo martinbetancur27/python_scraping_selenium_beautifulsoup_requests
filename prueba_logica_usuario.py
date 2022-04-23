@@ -9,6 +9,8 @@ def static_page(page):
     scraper = ScraperStaticPage(page)
     metodo, busqueda = opciones_busqueda()
     
+    #https://www.delftstack.com/howto/python/python-call-function-from-a-string/
+    #https://www.quora.com/Is-there-a-way-to-call-a-function-in-python-but-replace-the-name-of-a-function-with-a-defined-variable
     contents = getattr(scraper, metodo)(busqueda) 
     
     print("\n** RESULTADO **\n")
@@ -32,26 +34,39 @@ def ejecutar_metodo_busqueda(metodo, busqueda):
     pass
 
 def opciones_busqueda():
-    "(sin comillas)"
-    opciones ={
-        1: ["Ingrese su busqueda (sin comillas) ", "find_all", "find_all"],
-        2: ["Ingrese su busqueda (sin comillas) ", "find", "find"],
-        3: ["Ingrese su busqueda (sin comillas) ", "find_all_get_text", "find_all_get_text"],
-        4: ["Ingrese la etiqueta (sin comillas) ", "Obtener etiqueta (todas)", "get_all_tag"],
-        5: ["Ingrese la etiqueta (sin comillas) ", "Obtener atributo de etiqueta (todas)", "get_attribute_by_tag"],
-        6: ["Ingrese la expresion Xpath (sin comillas) ", "Obtener por Xpath", "get_by_xpath"],
-        7: ["Ingrese la etiqueta (sin comillas) ", "Obtener contenido de etiqueta", "get_content_tag"]
-    }
 
-    for key, value in opciones.items():
-        print ("{:<5} {:<5}".format(key, value[1]))
     
-    print("Del 1 al 3 corresponden a los metodos de BeautifulSoup")
-    choice = float(input("\nSeleccione el metodo que desea ejecutar: "))
-    print("Eleccion: ", opciones.get(choice)[1])
-    busqueda = input((opciones.get(choice)[0]))
-    metodo = opciones.get(choice)[2]
-
+    #Este diccionario tendra:
+        #Clave: numero. Valor: lista (opcion al usuario, mensaje de busqueda, metodo que ejecuta)
+    opciones ={
+        1: ["find_all", "Ingrese su busqueda (sin comillas): ",  "bs_find_all"],
+        2: ["find", "Ingrese su busqueda (sin comillas): ",  "bs_find"],
+        3: ["find_all_get_text", "Ingrese su busqueda (sin comillas): ", "bs_find_all_get_text"],
+        4: ["Obtener etiqueta (todas)", "Ingrese la etiqueta (sin comillas): ", "get_all_tag"],
+        5: ["Obtener atributo de etiqueta (todas)", "Ingrese la etiqueta (sin comillas): ", "get_attribute_by_tag"],
+        6: ["Obtener por Xpath", "Ingrese la expresion Xpath (sin comillas): ", "get_by_xpath"],
+        7: ["Obtener contenido de etiqueta", "Ingrese la etiqueta (sin comillas): ", "get_content_tag"]
+    }
+    #Imprimir opciones al usuario
+    for key, value in opciones.items():
+        print ("{:<5} {:<5}".format(key, value[0]))
+    
+    while True:
+        print("Del 1 al 3 corresponden a los metodos de BeautifulSoup")
+        try:
+            choice = float(input("Ingrese el numero del metodo que desea ejecutar: "))
+        except:
+            print("****** Por favor ingrese un numero valido ******")
+            continue
+        if choice < 0 or choice > len(opciones):
+            print("****** Opcion no valida ******")
+            continue
+        
+        print("Eleccion: ", opciones.get(choice)[0])
+        busqueda = input((opciones.get(choice)[1]))
+        metodo = opciones.get(choice)[2]
+        break
+    #Retornar el metodo y la busqueda que selecciono el usuario
     return metodo, busqueda
 
 def run():
