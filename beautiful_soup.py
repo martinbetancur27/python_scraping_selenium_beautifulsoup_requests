@@ -62,12 +62,18 @@ class BeautifulSoupPersonalized():
             print("Error al realizar scraping con la etiqueta ", tag)
 
 
-    def get_attribute_by_tag(self, tag, tag_attribute):
+    def get_attribute_by_tag(self, search):
         #recibe etiqueta y atributo
         #Busca todas las etiquetas
             #Filtra por el atributo recibido
-        #Retorna una lista con los atributos
+        #Retorna una lista con los atributos        
         try:
+            #La logica de este programa es recibir dos parametros. 
+                #El usuario los ingresa con esta logica: parametro1-parametro2
+            search = search.split("-")
+            tag = search[0]
+            tag_attribute = search[1]
+
             scraping_tag = self.soup.find_all(tag)
             list_attribute = []
             

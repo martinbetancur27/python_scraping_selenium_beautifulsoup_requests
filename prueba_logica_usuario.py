@@ -1,4 +1,3 @@
-from inspect import isgenerator
 from scraper_static_page import ScraperStaticPage
 from scraper_dynamic_page import ScraperDynamicPage
 
@@ -14,20 +13,28 @@ def static_page(page):
     contents = getattr(scraper, metodo)(busqueda) 
     
     print("\n** RESULTADO **\n")
-    if(iter(contents)):
-        for quote in contents:
-            print(quote)
+
+    #Validar si el resultado es una lista para dar una impresion mas legible
+    if isinstance(contents, list):
+        for content in contents:
+            print(content)
     else:
         print(contents)
 
 
 def dynamic_page(page):
 
-    scraper_yahoo = ScraperDynamicPage(page)
-    links_yahoo_home = scraper_yahoo.get_attribute_by_tag("a", "href")
+    scraper = ScraperDynamicPage(page)
+    metodo, busqueda = opciones_busqueda()
 
-    for link in links_yahoo_home:
-        print(link)
+    contents = getattr(scraper, metodo)(busqueda) 
+
+    #Validar si el resultado es una lista para dar una impresion mas legible
+    if isinstance(contents, list):
+        for content in contents:
+            print(content)
+    else:
+        print(contents)
 
 
 def ejecutar_metodo_busqueda(metodo, busqueda):
@@ -35,7 +42,6 @@ def ejecutar_metodo_busqueda(metodo, busqueda):
 
 def opciones_busqueda():
 
-    
     #Este diccionario tendra:
         #Clave: numero. Valor: lista (opcion al usuario, mensaje de busqueda, metodo que ejecuta)
     opciones ={
@@ -43,10 +49,11 @@ def opciones_busqueda():
         2: ["find", "Ingrese su busqueda (sin comillas): ",  "bs_find"],
         3: ["find_all_get_text", "Ingrese su busqueda (sin comillas): ", "bs_find_all_get_text"],
         4: ["Obtener etiqueta (todas)", "Ingrese la etiqueta (sin comillas): ", "get_all_tag"],
-        5: ["Obtener atributo de etiqueta (todas)", "Ingrese la etiqueta (sin comillas): ", "get_attribute_by_tag"],
+        5: ["Obtener atributo de etiqueta (todas)", "Ingrese etiqueta-atributo (sin comillas y en ese formato): ", "get_attribute_by_tag"],
         6: ["Obtener por Xpath", "Ingrese la expresion Xpath (sin comillas): ", "get_by_xpath"],
         7: ["Obtener contenido de etiqueta", "Ingrese la etiqueta (sin comillas): ", "get_content_tag"]
     }
+    
     #Imprimir opciones al usuario
     for key, value in opciones.items():
         print ("{:<5} {:<5}".format(key, value[0]))
@@ -70,9 +77,11 @@ def opciones_busqueda():
     return metodo, busqueda
 
 def run():
+            
     static_page("https://www.thoughtco.com/quotes-and-sayings-from-cervantes-3079523#:~:text=Cervantes%20Quotes%20About%20Living%20Wisely,reading%20much%20sharpens%20one's%20ingenuity.)")
+    
     '''opcion = int(input("Por favor elija:\n1. Prueba por defecto\n2. Prueba personalizada"))
-
+    
     if(opcion == 1):
         while(True):
 
