@@ -4,7 +4,7 @@ from lxml import etree
 class BeautifulSoupPersonalized():
 
     def __init__(self, page_source):
-        
+        #recibe una respuesta http. Contenido de una pagina
         self.__beautifulsoup_connect(page_source)
         
 
@@ -30,14 +30,14 @@ class BeautifulSoupPersonalized():
         try:
             return self.soup.find_all(*args, **kwargs)
         except:
-            print("(bs_find_all) Error al realizar busqueda con el atributo ", args)
+            print("(bs_find_all) Error al realizar búsqueda con el atributo ", args)
         
 
     def bs_find(self, *args, **kwargs):
         try:
             return self.soup.find(*args, **kwargs)
         except:
-            print("(bs_find) Error al realizar busqueda con el atributo ", args)
+            print("(bs_find) Error al realizar búsqueda con el atributo ", args)
     
 
     def bs_find_all_get_text(self, *args, **kwargs):
@@ -49,9 +49,9 @@ class BeautifulSoupPersonalized():
 
             return list_texts
         except:
-            print("(bs_find_all_get_text) Error al realizar busqueda con el atributo ", args)
+            print("(bs_find_all_get_text) Error al realizar búsqueda con el atributo ", args)
 
-#Los siguientes metodos son para hacer la busqueda mas natural
+    #Los siguientes metodos son para hacer la busqueda mas natural
     def get_all_tag(self, tag):
         #Recibir etiqueta
         #Filtrar por la etiqueta
@@ -94,7 +94,7 @@ class BeautifulSoupPersonalized():
             dom = etree.HTML(str(self.soup))
             return dom.xpath(var_xpath)
         except:
-            print("Error al realizar busqueda XPATH ", var_xpath)
+            print("Error al realizar búsqueda XPATH ", var_xpath)
     
 
     def get_content_tag(self, tag):
@@ -111,4 +111,4 @@ class BeautifulSoupPersonalized():
 
             return list_texts
         except:
-            print("Error al realizar busqueda de contenido en la etiqueta ", tag)
+            print("Error al realizar búsqueda de contenido en la etiqueta ", tag)

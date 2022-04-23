@@ -1,4 +1,4 @@
-#Modulo propio del programa
+#beautiful_soup modulo del programa
 from beautiful_soup import BeautifulSoupPersonalized
 
 from selenium import webdriver
@@ -9,9 +9,13 @@ import time
 
 class ScraperDynamicPage(BeautifulSoupPersonalized):
 
+    #Esta clase heredara los metodos de la clase BeautifulSoupPersonalized
+            #Heredara los metodos para la busqueda
+
     def __init__(self, page_url):
         
         page_result = self.scraper_dynamic_page(page_url)
+        #super().__init__ Inicializar el constructor de la superclase
         super().__init__(page_result)
 
     
@@ -58,7 +62,7 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             self.driver.quit()
             return page_source
         except:
-            print("Error al realizar el scraping sobre web dinamica. Revise su URL")
+            print("Error al realizar el scraping sobre web dinámica. Revise su URL")
 
     
     def __slow_scroll(self):
@@ -75,7 +79,7 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             #trae una cantidad relativamente cerca.
             
             #FUENTE DEL CODIGO: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
-            print("Por favor esperar... La pagina puede ser muy extensa")
+            print("Por favor esperar... La página puede ser muy extensa")
             self.driver.maximize_window()
             time.sleep(1)
             #We make a slow scroll to the end of the page
@@ -85,9 +89,9 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
                 Height=250*iter
                 self.driver.execute_script("window.scrollTo(0, " + str(Height) + ");")
                 if Height > scrollHeight:
-                    print('End of page')
+                    print('Scroll finalizado')
                     break
                 time.sleep(1)
                 iter+=1
         except:
-            print("Error al realizar el scroll dinamico")
+            print("Error al realizar el scroll dinámico")
