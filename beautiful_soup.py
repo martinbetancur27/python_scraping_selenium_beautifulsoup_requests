@@ -3,12 +3,12 @@ from lxml import etree
 
 class BeautifulSoupPersonalized():
 
-    def __init__(self, page_source) -> None:
+    def __init__(self, page_source):
         
-        self.page_source = page_source
-        self.__beautifulsoup_connect()
+        self.__beautifulsoup_connect(page_source)
+        
 
-    def __beautifulsoup_connect(self):
+    def __beautifulsoup_connect(self, page_source):
         #Recibe como parametro la pagina obtenida por medio de requests o el driver de Selenium
         #Crea el objeto 'Beautiful Soup' de la pagina recibida
         #No retorna ningun valor.
@@ -20,7 +20,7 @@ class BeautifulSoupPersonalized():
         (Con self.soup se tendran formas de navegar esa estructura de datos)'''
 
         try:
-            self.soup = BeautifulSoup(self.page_source, 'html.parser')
+            self.soup = BeautifulSoup(page_source, 'html.parser')
         except:
             print("Error al conectar con BeutifulSoup")
 
