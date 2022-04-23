@@ -41,7 +41,7 @@ def opciones_busqueda():
         print("Del 1 al 3 corresponden a los métodos de BeautifulSoup")
         try:
             #preguntar al usuario el metodo quiere ejecutar
-            choice = float(input("Ingrese el número del método que desea ejecutar:"))
+            choice = float(input("Ingrese el número del método que desea ejecutar: "))
         except:
             print("****** Por favor ingrese un número valido ******")
             #continue. continuar el otro ciclo. No se ejecuta el codigo que esta despues.
@@ -88,7 +88,7 @@ def realizar_busqueda(scraper, page):
 
         #Esperar 3 segundos para ofrecer la opcion de salida
         time.sleep(3)
-        opcion_final = int(input("Por favor ingrese el número:\n1. Realizar otra búsqueda\n2.Salir\n---> "))
+        opcion_final = int(input("Por favor ingrese el número:\n1. Realizar otra búsqueda\n2. Salir\n---> "))
 
         if opcion_final == 1:
             print("Elección: realizar otra búsqueda en: ", page)
