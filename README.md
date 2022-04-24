@@ -12,7 +12,7 @@ Copia los módulos en tu proyecto para tener acceso a Selenium, BeutifulSoup y R
 Puede revisar la lógica del programa en el siguiente enlace: 
 =============
     
-https://replit.com/@MartinBetancur/pythonscrapingwebstaticordynamic
+https://replit.com/@MartinBetancur/pythonscraping
 
 
 
