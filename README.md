@@ -1,13 +1,16 @@
-# python_scraping_selenium_beautifulsoup_requests
-    Python: scraping con Selenium, Requests y BeautifulSoup. 3 módulos con programación orientada a objetos. Tiene un modulo para hacer scraping sobre una página dinámica.
+# Python: scraping con Selenium, Requests y BeautifulSoup. 3 módulos con programación orientada a objetos. Tiene un modulo para hacer scraping sobre una página dinámica.
+    
 
 El módulo prueba_logica_usuario.py contiene una lógica que crea una experiencia de usuario para evaluar el scraping.
 
-    Elige una página estática o dinámica (scroll infinito) y diferentes métodos para filtrar la información.
+
+Elige una página estática o dinámica (scroll infinito) y diferentes métodos para filtrar la información.
+
 
 Copia los módulos en tu proyecto para tener acceso a Selenium, BeutifulSoup y Requests, ademas de disponer de métodos establecidos para filtrar los datos.
 
-    Puede revisar la lógica del programa en el siguiente enlace: 
+Puede revisar la lógica del programa en el siguiente enlace: 
+=============
     
 https://replit.com/@MartinBetancur/pythonscrapingwebstaticordynamic
 
