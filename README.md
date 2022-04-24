@@ -29,4 +29,4 @@ Fuente de los cambios que realice: https://replit.com/talk/ask/Can-I-use-seleniu
 
 - En replit ejecutar el módulo main.py
 
-- En replit por favor esperar si ejecuta una página dinámica. Su página puede ser muy extensa y la CPU de replit puede tomarse algún tiempo en procesarla.
+- En replit no se puede probar las páginas dinámicas porque replit superpone la interfaz gráfica y oculta la consola, impidiendo observar el desarrollo del programa.
