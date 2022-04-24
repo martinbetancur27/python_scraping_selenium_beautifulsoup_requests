@@ -141,11 +141,11 @@ def main():
             opcion_defecto = input("Por favor ingrese el número:\n1. Prueba página estática\n2. Prueba página dinámica\n---> ")
             
             if opcion_defecto == "1":
-                print("Elección: pagina estática")
+                print("Elección: pagina estática.\nEjemplo: https://hipertextual.com/")
                 static_page("https://hipertextual.com/")
                 
             else:
-                print("Elección: pagina dinámica")
+                print("Elección: pagina dinámica.\nEjemplo: https://finance.yahoo.com")
                 dynamic_page("https://finance.yahoo.com")
                 
         else:
