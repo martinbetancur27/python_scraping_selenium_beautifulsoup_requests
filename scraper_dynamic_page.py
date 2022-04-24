@@ -91,7 +91,7 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
                 Height=250*iter
                 self.driver.execute_script("window.scrollTo(0, " + str(Height) + ");")
                 if Height > scrollHeight:
-                    print('Scroll finalizado')
+                    print('Scroll finalizado, por favor espere')
                     break
                 time.sleep(1)
                 iter+=1
