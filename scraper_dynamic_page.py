@@ -36,6 +36,8 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             #Ocultar el navegador
             self.options = ChromeOptions()
             self.options.headless = True
+            #Ocultar logs innecesarios
+            self.options.add_argument("--log-level=3")
 
             self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
             self.driver.get(page)
