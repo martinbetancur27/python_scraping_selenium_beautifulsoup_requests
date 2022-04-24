@@ -11,8 +11,7 @@ Copia los módulos en tu proyecto para tener acceso a Selenium, BeutifulSoup y R
     
 https://replit.com/@MartinBetancur/pythonscrapingwebstaticordynamic
 
-Aclaracion sobre replit: Hice algunos cambios en el codigo y en replit para poder ejecutar el paquete Selenium.
-Fuente de los cambios que realice: https://replit.com/talk/ask/Can-I-use-selenium/11566
+
 
 ¡Aclaraciones!
 =============
@@ -21,3 +20,10 @@ Fuente de los cambios que realice: https://replit.com/talk/ask/Can-I-use-seleniu
 Ejemplo: https://hipertextual.com/robots.txt
 
 - Al realizar scraping sobre una web dinámica algunos datos pueden perderse; tener en cuenta.
+
+- En replit.com hice algunos cambios en el código y en la configuración de replit para poder ejecutar el paquete Selenium.
+Fuente de los cambios que realice: https://replit.com/talk/ask/Can-I-use-selenium/11566
+
+- En replit ejecutar el módulo main.py
+
+- En replit por favor esperar si ejecuta una página dinámica. Su página puede ser muy extensa y la CPU de replit puede tomarse algún tiempo en procesarla.
