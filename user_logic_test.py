@@ -32,7 +32,7 @@ def search_options():
             2: ["find", "Enter your search (without quotes): ",  "bs_find"],
             3: ["find_all_get_text", "Enter your search (without quotes): ", "bs_find_all_get_text"],
             4: ["Get tag (all)", "Enter the tag (without quotes): ", "get_all_tag"],
-            5: ["Get tag attribute (all)", "Enter tag-attribute (without quotes and in that format): ", "get_attribute_by_tag"],
+            5: ["Get tag attribute (all)", "Enter tag-attribute (without quotes and in that format. a-href): ", "get_attribute_by_tag"],
             6: ["Get by XPath", "Enter the Xpath expression (without quotes): ", "get_by_xpath"],
             7: ["Get tag content", "Enter the tag (without quotes): ", "get_content_tag"]
         }
