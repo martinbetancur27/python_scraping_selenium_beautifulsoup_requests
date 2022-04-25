@@ -2,156 +2,160 @@ from scraper_static_page import ScraperStaticPage
 from scraper_dynamic_page import ScraperDynamicPage
 import time
 
+
 def static_page(page):
 
     try:
         scraper = ScraperStaticPage(page)
-        realizar_busqueda(scraper, page)
+        perform_search(scraper, page)
     except:
-        print("Error al realizar el scraping estático")
+        print("Error performing static scraping")
+
 
 def dynamic_page(page):
 
     try:
-        print("\nPor favor espere, la página puede ser muy extensa")
+        print("\nPlease wait, the page can be very long")
         scraper = ScraperDynamicPage(page)
-        realizar_busqueda(scraper, page)
+        perform_search(scraper, page)
     except:
-        print("Error al realizar scraping dinámico")
+        print("Error when performing dynamic scraping")
 
 
-def opciones_busqueda():
+def search_options():
 
     try:
-        #Este diccionario tendra:
-            #Clave: numero. Valor: lista (opcion al usuario, mensaje de busqueda, metodo que ejecuta)
-        opciones ={
-            1: ["find_all", "Ingrese su búsqueda (sin comillas): ",  "bs_find_all"],
-            2: ["find", "Ingrese su búsqueda (sin comillas): ",  "bs_find"],
-            3: ["find_all_get_text", "Ingrese su búsqueda (sin comillas): ", "bs_find_all_get_text"],
-            4: ["Obtener etiqueta (todas)", "Ingrese la etiqueta (sin comillas): ", "get_all_tag"],
-            5: ["Obtener atributo de etiqueta (todas)", "Ingrese etiqueta-atributo (sin comillas y en ese formato): ", "get_attribute_by_tag"],
-            6: ["Obtener por Xpath", "Ingrese la expresión Xpath (sin comillas): ", "get_by_xpath"],
-            7: ["Obtener contenido de etiqueta", "Ingrese la etiqueta (sin comillas): ", "get_content_tag"]
+        #This dictionary has:
+            #Key: number. Value: list (option to the user, search message, method that executes)
+        options ={
+            1: ["find_all", "Enter your search (without quotes): ",  "bs_find_all"],
+            2: ["find", "Enter your search (without quotes): ",  "bs_find"],
+            3: ["find_all_get_text", "Enter your search (without quotes): ", "bs_find_all_get_text"],
+            4: ["Get tag (all)", "Enter the tag (without quotes): ", "get_all_tag"],
+            5: ["Get tag attribute (all)", "Enter tag-attribute (without quotes and in that format): ", "get_attribute_by_tag"],
+            6: ["Get by XPath", "Enter the Xpath expression (without quotes): ", "get_by_xpath"],
+            7: ["Get tag content", "Enter the tag (without quotes): ", "get_content_tag"]
         }
 
-        #Imprimir opciones al usuario
-        print("\n**** Opciones de búsqueda ****")
+        #Print options to user
+        print("\n**** Search options ****")
         
-        for key, value in opciones.items():
-            #Imprimir con mejor presentacion.
-                #{:<5} significa alineado a la izquierda con un ancho de 5.
+        for key, value in options.items():
+            #Print with better presentation.
+                #{:<5} means left-aligned with a width of 5.
             print ("{:<5} {:<5}".format(key, value[0]))
         
         while True:
-            print("Del 1 al 3 corresponden a los métodos de BeautifulSoup")
+            print("From 1 to 3 correspond to the methods of BeautifulSoup")
             try:
-                #preguntar al usuario el metodo que quiere ejecutar
-                choice = int(input("Ingrese el número del método que desea ejecutar: "))
+                #prompt the user for the method they want to execute
+                choice = int(input("Enter the number of the method you want to run: "))
             except:
-                print("****** Por favor ingrese un número valido ******")
-                #continue. continuar el otro ciclo. No se ejecuta el codigo que esta despues.
+                print("****** Please enter a valid number ******")
+                #continue. continue the other cycle. The code after is not executed.
                 continue
 
-            if choice < 1 or choice > len(opciones):
-                print("****** Opcion no valida ******")
+            if choice < 1 or choice > len(options):
+                print("****** Invalid option ******")
                 continue
             
-            print("Elección: ", opciones.get(choice)[0])
+            print("Choice: ", options.get(choice)[0])
 
-            #preguntar al usuario la busqueda que quiere realizar en el metodo
-            busqueda = input((opciones.get(choice)[1]))
-            #obtener el metodo que el usuario escogio
-            metodo = opciones.get(choice)[2]
+            #ask the user the search they want to perform in the method
+            search = input((options.get(choice)[1]))
+            #get the method the user chose
+            method = options.get(choice)[2]
             break
 
-        #Retornar el metodo y la busqueda que selecciono el usuario
-        return metodo, busqueda
+        #Return the method and search that the user selected
+        return method, search
 
     except:
-        print("Error en las opciones de búsqueda")
+        print("Search options error")
 
 
-def realizar_busqueda(scraper, page):
+def perform_search(scraper, page):
 
-    #Realiza la busqueda con metodos de beautiful soup
+    #Perform the search with methods of beautiful soup
     try:
         while (True):
-            #opciones_busqueda retorna dos resultados.
-            metodo, busqueda = opciones_busqueda()
+            #search_options return two results.
+            method, search = search_options()
             
             #https://www.delftstack.com/howto/python/python-call-function-from-a-string/
             
-            #Caracteristica de Python. Capacidad de llamar un metodo con un string.
-                #primer parentesis (objeto, nombre del metodo)
-                #segundo parentesis (parametro del metodo)
-            contents = getattr(scraper, metodo)(busqueda) 
+            #Python feature. Ability to call a method with a string.
+                #first parentheses (object, method name)
+                #second parentheses (method parameter)
+            contents = getattr(scraper, method)(search) 
             
-            print("\n** RESULTADO **\n")
+            print("\n** OUTCOME **\n")
 
-            #Validar si el resultado es una lista para dar una impresion mas legible
+            #Validate if the result is a list to give a more readable impression
             if isinstance(contents, list):
                 for content in contents:
                     print(content)
             else:
                 print(contents)
 
-            print("\n*** Búsqueda terminada ***")
+            print("\n*** Search finished ***")
 
-            #Esperar 3 segundos para ofrecer la opcion de salida
+            #Wait 3 seconds to offer the exit option
             time.sleep(3)
-            opcion_final = input("Por favor ingrese el número:\n1. Realizar otra búsqueda\n2. Salir\n---> ")
+            final_option = input("Please enter the number:\n1. Perform another search\n2. Exit\n---> ")
 
-            if opcion_final == "1":
-                print("Elección: realizar otra búsqueda en: ", page)
+            if final_option == "1":
+                print("Choice: perform another search on: ", page)
             else:
-                print("Elección: salir")
+                print("Choice: Exit")
                 break
     except:
-        print("Error al realizar la búsqueda")
+        print("Search error")
 
-def prueba_personalizada():
 
-    #El usuario elegira la pagina para hacer scraping y los metodos de busqueda
+def custom_test():
+
+    #The user will choose the page to scrape and the search methods
     try:
-        page_url = input("Ingrese la URL: ")
+        page_url = input("Enter the URL: ")
 
-        opcion_scrape = input("Por favor ingrese el número:\n1. Pagina estática\n2. Pagina dinámica\n---> ")
+        option_scrape = input("Please enter the number:\n1. Static page\n2. Dynamic page\n---> ")
 
-        if(opcion_scrape == "1"):
-            print("Elección: pagina estática")
+        if(option_scrape == "1"):
+            print("Choice: Static page")
             static_page(page_url)
 
         else:
-            print("Elección: pagina dinámica")
+            print("Choice: Dynamic page")
             dynamic_page(page_url)
     except:
-        print("Error en la prueba personalizada")
+        print("Custom test failed")
 
 
 def main():
 
     try:
-        #input devuelve un string. No coloco int(input()) para evitar chequeo de numero. Obtengo el mismo resultado
-        #Numero diferente de 1 se tomara como la otra opcion
-        opcion = input("Por favor ingrese el número:\n1. Prueba por defecto (ejemplo)\n2. Prueba personalizada\n---> ")
+        #input returns a string. I don't put int(input()) to avoid number checking. I get the same result
+        #Number different from 1 will be taken as the other option
+        option = input("Please enter the number:\n1. Default test (example url)\n2. Custom test (your url)\n---> ")
 
-        if(opcion == "1"):
-            #Prueba por defecto: Valores pre-establecidos
-            opcion_defecto = input("Por favor ingrese el número:\n1. Prueba página estática\n2. Prueba página dinámica\n---> ")
+        if(option == "1"):
+            #Default Test: Presets
+            default_option = input("Please enter the number:\n1. Test static page\n2. Test dynamic page\n---> ")
             
-            if opcion_defecto == "1":
-                print("Elección: pagina estática")
+            if default_option == "1":
+                print("Choice: static page... https://hipertextual.com/")
                 static_page("https://hipertextual.com/")
                 
             else:
-                print("Elección: pagina dinámica")
+                print("Choice: dynamic page... https://finance.yahoo.com")
                 dynamic_page("https://finance.yahoo.com")
                 
         else:
-            prueba_personalizada()
+            custom_test()
     except:
-        print("Error en el programa")
+        print("bug in the program. Please try again or later")
+
 
 if __name__ == "__main__":
 
