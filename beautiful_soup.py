@@ -4,40 +4,40 @@ from lxml import etree
 class BeautifulSoupPersonalized():
 
     def __init__(self, page_source):
-        #recibe una respuesta http. Contenido de una pagina
+        #receives an http response. Content of a page
         self.__beautifulsoup_connect(page_source)
         
 
     def __beautifulsoup_connect(self, page_source):
-        #Recibe como parametro la pagina obtenida por medio de requests o el driver de Selenium
-        #Crea el objeto 'Beautiful Soup' de la pagina recibida
-        #No retorna ningun valor.
+        # Receive as parameter the page obtained through requests or the Selenium driver
+        #Create the 'Beautiful Soup' object from the received page
+        #Does not return any value.
 
-        '''Ejecutar el documento HTML a través de Beautiful Soup nos da un objeto BeautifulSoup que 
-        representa el documento como una estructura de datos anidados. 
+        '''Running the HTML document through BeautifulSoup gives us a BeautifulSoup object that 
+        represents the document as a nested data structure.
         https://beautiful-soup-4.readthedocs.io/en/latest/
         
-        (Con self.soup se tendran formas de navegar esa estructura de datos)'''
+        (With self.soup you will have ways to navigate that data structure)'''
 
         try:
             self.soup = BeautifulSoup(page_source, 'html.parser')
         except:
-            print("Error al conectar con BeutifulSoup")
+            print("Error connecting to BeautifulSoup")
 
 
-    #los siguientes metodos son para llamar metodos de BeautifulSoup
+    #the following methods are for calling BeautifulSoup methods
     def bs_find_all(self, *args, **kwargs):
         try:
             return self.soup.find_all(*args, **kwargs)
         except:
-            print("(bs_find_all) Error al realizar búsqueda con el atributo ", args)
+            print("(bs_find_all) Error performing search ", args)
         
 
     def bs_find(self, *args, **kwargs):
         try:
             return self.soup.find(*args, **kwargs)
         except:
-            print("(bs_find) Error al realizar búsqueda con el atributo ", args)
+            print("(bs_find) Error performing search ", args)
     
 
     def bs_find_all_get_text(self, *args, **kwargs):
@@ -49,27 +49,27 @@ class BeautifulSoupPersonalized():
 
             return list_texts
         except:
-            print("(bs_find_all_get_text) Error al realizar búsqueda con el atributo ", args)
+            print("(bs_find_all_get_text) Error performing search ", args)
 
-    #Los siguientes metodos son para hacer la busqueda mas natural
+    #The following methods are to make the search more natural
     def get_all_tag(self, tag):
-        #Recibir etiqueta
-        #Filtrar por la etiqueta
-        #Retornar busqueda
+        #Receive label
+        #Filter by tag
+        #return search
         try:
             return self.soup.find_all(tag)
         except:
-            print("Error al realizar scraping con la etiqueta ", tag)
+            print("Error when scraping with the tag ", tag)
 
 
     def get_attribute_by_tag(self, search):
-        #recibe etiqueta y atributo
-        #Busca todas las etiquetas
-            #Filtra por el atributo recibido
-        #Retorna una lista con los atributos        
+        #receive tag and attribute: tag-attribute
+        #find all tags
+            #Filter by received attribute
+        #Return a list with the attributes        
         try:
-            #La logica de este programa es recibir dos parametros. 
-                #El usuario los ingresa con esta logica: parametro1-parametro2
+            #The logic of this program is to receive two parameters.
+                #The user enters them with this logic: parameter1-parameter2
             search = search.split("-")
             tag = search[0]
             tag_attribute = search[1]
@@ -83,7 +83,7 @@ class BeautifulSoupPersonalized():
             
             return list_attribute
         except:
-            print("Error al obtener el atributo ", tag_attribute)
+            print("Error performing search ", search)
     
 
     def get_by_xpath(self, var_xpath):
@@ -94,14 +94,14 @@ class BeautifulSoupPersonalized():
             dom = etree.HTML(str(self.soup))
             return dom.xpath(var_xpath)
         except:
-            print("Error al realizar búsqueda XPATH ", var_xpath)
+            print("Error performing XPATH lookup ", var_xpath)
     
 
     def get_content_tag(self, tag):
-        #Recibe etiqueta
-        #Busca la etiqueta con el metodo de BeautifulSoup.
-            #Captura el contenido de la etiqueta
-        #Retorna lista con el contenido
+        #Receive tag
+        #Find the tag with the BeautifulSoup method.
+            #Fetch the content of the tag
+        #Return list with content
 
         try:
             texts = self.soup.find_all(tag)
@@ -111,4 +111,4 @@ class BeautifulSoupPersonalized():
 
             return list_texts
         except:
-            print("Error al realizar búsqueda de contenido en la etiqueta ", tag)
+            print("Error performing content search on tag ", tag)
