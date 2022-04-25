@@ -1,32 +1,32 @@
-# Python: scraping con Selenium, Requests y BeautifulSoup. 3 módulos con programación orientada a objetos. Tiene un modulo para hacer scraping sobre una página dinámica.
+# Python: scraping with Selenium, Requests and BeautifulSoup. Three modules with object-oriented programming. It has a module to scrape a dynamic page.
     
 
-El módulo prueba_logica_usuario.py contiene una lógica que crea una experiencia de usuario para evaluar el scraping.
+The user_logic_test.py module contains logic that creates a user experience to test scraping.
 
 
-Elige una página estática o dinámica (scroll infinito) y diferentes métodos para filtrar la información.
+Choose a static or dynamic page (infinite scroll) and different methods to filter the information.
 
 
-Copia los módulos en tu proyecto para tener acceso a Selenium, BeutifulSoup y Requests, ademas de disponer de métodos establecidos para filtrar los datos.
+Copy the modules in your project to have access to Selenium, BeutifulSoup and Requests, in addition to having established methods to filter the data.
 
-Puede revisar la lógica del programa en el siguiente enlace: 
+You can review the program logic at the following link:
 =============
     
-https://replit.com/@MartinBetancur/pythonscraping
+https://replit.com/@MartinBetancur/Python-Web-scraping
 
 
 
-¡Aclaraciones!
+Clarifications!
 =============
 
-- Revisar el archivo robots.txt de la página a la que harás scraping. EL CONTENIDO NO ES TUYO.
-Ejemplo: https://hipertextual.com/robots.txt
+- Review the robots.txt file of the page you will scrape. THE CONTENT IS NOT YOURS.
+Example: https://hipertextual.com/robots.txt
 
-- Al realizar scraping sobre una web dinámica algunos datos pueden perderse; tener en cuenta.
+- When scraping a dynamic web some data may be lost; consider. If you get little data in static scraping, try dynamic scraping.
 
-- En replit.com hice algunos cambios en el código y en la configuración de replit para poder ejecutar el paquete Selenium.
-Fuente de los cambios que realice: https://replit.com/talk/ask/Can-I-use-selenium/11566
+- At replit.com I made some changes to the replit code and configuration to be able to run the Selenium package.
+Source of the changes you make: https://replit.com/talk/ask/Can-I-use-selenium/11566
 
-- En replit ejecutar el módulo main.py
+- In replit run the module main.py
 
-- En replit no se puede probar las páginas dinámicas porque replit superpone la interfaz gráfica y oculta la consola, impidiendo observar el desarrollo del programa.
+- You can't test dynamic pages in replit because replit overlays the graphical interface and hides the console, making it impossible to see the progress of the program.
