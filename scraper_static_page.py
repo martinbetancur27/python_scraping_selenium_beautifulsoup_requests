@@ -1,25 +1,25 @@
 import requests
 from beautiful_soup import BeautifulSoupPersonalized
-#beautiful_soup modulo del programa
+#beautiful_soup program module
 
 class ScraperStaticPage(BeautifulSoupPersonalized):
 
-    #Esta clase heredara los metodos de la clase BeautifulSoupPersonalized
-            #Heredara los metodos para la busqueda
+    #This class inherits the methods of the BeautifulSoupPersonalized class.
+            #Inherit methods for lookup
             
     def __init__(self, page_url):
         
         page_result = self.scraper_static_page(page_url)
-        #super().__init__ Inicializar el constructor de la superclase
+        #super().__init__ Initialize the constructor of the superclass
         super().__init__(page_result.text)
 
 
     def scraper_static_page(self, page_url):
-        #Recibe Url
-        #Obtener pagina por medio de requests.
-        #retorna el resultado de la peticion http.
+        #Receive Url
+        #Get page through requests.
+        #returns the result of the http request.
 
         try:
             return requests.get(page_url)
         except:
-            print("Error al realizar el scraping sobre web estática. \n Revise su URL o intente con el método de página dinámica")
+            print("Error when performing scraping on static web.\nCheck your URL or try the dynamic page method")

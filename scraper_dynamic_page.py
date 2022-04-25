@@ -1,4 +1,4 @@
-#beautiful_soup modulo del programa
+#beautiful_soup program module
 from beautiful_soup import BeautifulSoupPersonalized
 
 from selenium import webdriver
@@ -9,53 +9,54 @@ import time
 
 class ScraperDynamicPage(BeautifulSoupPersonalized):
 
-    #Esta clase heredara los metodos de la clase BeautifulSoupPersonalized
-            #Heredara los metodos para la busqueda
+    #This class inherits the methods of the BeautifulSoupPersonalized class.
+            #Inherit methods for lookup
 
     def __init__(self, page_url):
         
         page_result = self.scraper_dynamic_page(page_url)
-        #super().__init__ Inicializar el constructor de la superclase
+        #super().__init__ Initialize the constructor of the superclass
         super().__init__(page_result)
 
     
     def __connect_browser(self, page):
-        #No recibe ningun parametro
-        #Hace la conexion con el webdriver de Chrome.
-        #No retorna ningun valor
+        
+        #It makes the connection with the Chrome webdriver.
+        #Does not return any value
 
-        '''ChromeDriver es un ejecutable separado que Selenium WebDriver usa para controlar Chrome. 
-        Lo mantiene el equipo de Chromium con la ayuda de los colaboradores de WebDriver.
+        '''ChromeDriver is a separate executable that Selenium WebDriver uses to control Chrome.
+        It is maintained by the Chromium team with the help of WebDriver contributors.
         https://chromedriver.chromium.org/getting-started
         
-        Selenium admite la automatización de todos los principales navegadores del mercado mediante el uso de WebDriver
-        WebDriver es una API y un protocolo que define una interfaz independiente del idioma para controlar el 
-        comportamiento de los navegadores web. Cada navegador está respaldado por una implementación específica de WebDriver, 
-        llamada controlador. https://www.selenium.dev/documentation/webdriver/getting_started/'''
+        Selenium supports automation of all major browsers on the market by using WebDriver.
+        WebDriver is an API and protocol that defines a language-independent interface for controlling the behavior of web browsers. 
+        Each browser is backed by a specific implementation of WebDriver, called controller. 
+        https://www.selenium.dev/documentation/webdriver/getting_started/'''
+
         try:
-            #Ocultar el navegador
+            #Hide the browser
             self.options = ChromeOptions()
             self.options.headless = True
-            #Ocultar logs innecesarios
+            #Hide unnecessary logs from the user
             self.options.add_argument("--log-level=3")
 
             self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
             self.driver.get(page)
         except:
-            print("Error al conectar el driver del navegador")
+            print("Error connecting browser driver")
 
 
     def scraper_dynamic_page(self, page):
-        #Recibe Url
-        #Ejecutar metodo __connect_browser()
-            #Obtener la pagina por medio del driver de Selenium. 
-            #Hacer scroll 'infinito' y con tiempo de pausa para
-            #permtir que se cargue todo el contenido. 
-            #Sincrónicamente ejecuta JavaScript en la ventana/marco actual
-            #obtenemos el código html interno del cuerpo. 
-            #Enviar el resultado al metodo __beautifulsoup_connect
-            #Sale del controlador y cierra todas las ventanas asociadas.
-        #No retorna ningun valor
+        #Receive Url
+        #execute method __connect_browser()
+            #Get the page through the Selenium driver.
+            #Make scroll 'infinite' and with pause time for
+            #allow all content to be loaded.
+            #Synchronously run JavaScript in the current window/frame
+            # get the internal html code of the body.
+            #Send the result to the __beautifulsoup_connect method
+            #Exit the controller and close all associated windows.
+         #Does not return any value
         try:
             self.__connect_browser(page)
             self.__slow_scroll()     
@@ -64,24 +65,24 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             self.driver.quit()
             return page_source
         except:
-            print("Error al realizar el scraping sobre web dinámica. Revise su URL")
+            print("Error when performing scraping on dynamic web. check your url")
 
     
     def __slow_scroll(self):
-        #No recibe parametro
-        #Controlar el scroll de la pagina por medio una accion de Javascript y Selenium
-        #No retorna ninguno valor
+        #Does not receive parameter
+        #Control page scrolling through a Javascript and Selenium action
+        #Does not return any value
         try:
 
-            #Deslizamiento pausado (1 segundo) para permitir que el contenido se cargue (sitios dinamicos).
-            #Permite el scroll "infinito"
-            ###### PRUEBAS CON EL SITIO: https://finance.yahoo.com
-            # Este resultado trajo mas o menos 3 veces que el realizado con el metodo estatico.
-            #TENER EN CUENTA: XPATH del navegador (CARGADO COMPLETAMENTE) trae mas datos sin embargo este metodo 
-            #trae una cantidad relativamente cerca.
+            #Scroll paused (1 second) to allow content to load (dynamic sites).
+            #Allow "infinite" scroll
+            ###### TESTS WITH THE SITE: https://finance.yahoo.com
+            # This result brought more or less 3 times than the one obtained with the static method.
+            #PLEASE NOTE: Browser XPATH (FULLY LOADED) brings more data however this method
+            #brings a relatively close amount.
             
-            #FUENTE DEL CODIGO: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
-            print("Por favor esperar... La página puede ser muy extensa")
+            #CODE SOURCE: https://blogvisionarios.com/e-learning/articulos-data/web-scraping-de-paginas-dinamicas-con-selenium-python-y-beautifulsoup-en-azure-data-studio/
+            print("Please wait... The page can be very long")
             self.driver.maximize_window()
             time.sleep(1)
             #We make a slow scroll to the end of the page
@@ -91,9 +92,9 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
                 Height=250*iter
                 self.driver.execute_script("window.scrollTo(0, " + str(Height) + ");")
                 if Height > scrollHeight:
-                    print('Scroll finalizado, por favor espere')
+                    print("Scroll finished, please wait")
                     break
                 time.sleep(1)
                 iter+=1
         except:
-            print("Error al realizar el scroll dinámico")
+            print("Error when performing dynamic scroll")
