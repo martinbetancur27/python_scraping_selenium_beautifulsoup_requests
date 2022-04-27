@@ -7,7 +7,10 @@ def static_page(page):
 
     try:
         scraper = ScraperStaticPage(page)
-        perform_search(scraper, page)
+        if(scraper.connect):
+            perform_search(scraper, page)
+        else:
+            request_another_url()
     except:
         print("Error performing static scraping")
 
@@ -17,10 +20,25 @@ def dynamic_page(page):
     try:
         print("\nPlease wait, the page can be very long")
         scraper = ScraperDynamicPage(page)
-        perform_search(scraper, page)
+        if(scraper.connect):
+            perform_search(scraper, page)
+        else:
+            request_another_url()
     except:
         print("Error when performing dynamic scraping")
 
+
+def request_another_url():
+
+    try:
+        option = input("1. Enter URL\n2. Exit\n---> ")
+        if option == "1":
+            custom_test()
+        else:
+            print("Choice: Exit")
+    except:
+        print("")
+    
 
 def search_options():
 
