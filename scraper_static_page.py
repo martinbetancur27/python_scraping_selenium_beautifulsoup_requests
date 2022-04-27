@@ -8,10 +8,14 @@ class ScraperStaticPage(BeautifulSoupPersonalized):
             #Inherit methods for lookup
             
     def __init__(self, page_url):
-        
+
+        #connect: connection validation
+        self.connect = False
         page_result = self.scraper_static_page(page_url)
-        #super().__init__ Initialize the constructor of the superclass
-        super().__init__(page_result.text)
+
+        if(self.connect):
+            #super().__init__ Initialize the constructor of the superclass
+            super().__init__(page_result.text)
 
 
     def scraper_static_page(self, page_url):
@@ -20,6 +24,11 @@ class ScraperStaticPage(BeautifulSoupPersonalized):
         #returns the result of the http request.
 
         try:
-            return requests.get(page_url)
+            page = requests.get(page_url)
+            #if the above piece of code doesn't break set the connection to true
+            self.connect = True
+            return page
+            
         except:
-            print("Error when performing scraping on static web.\nCheck your URL or try the dynamic page method")
+            print("Error when performing scraping on static web.\nCheck your URL or try the dynamic page method\n")
+            self.connect = False

@@ -13,11 +13,15 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             #Inherit methods for lookup
 
     def __init__(self, page_url):
-        
-        page_result = self.scraper_dynamic_page(page_url)
-        #super().__init__ Initialize the constructor of the superclass
-        super().__init__(page_result)
 
+        #connect: connection validation
+        self.connect = False
+        page_result = self.scraper_dynamic_page(page_url)
+
+        if(self.connect):
+            #super().__init__ Initialize the constructor of the superclass
+            super().__init__(page_result)
+        
     
     def __connect_browser(self, page):
         
@@ -42,8 +46,11 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
 
             self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
             self.driver.get(page)
+            #if the above piece of code doesn't break set the connection to true
+            self.connect = True
         except:
-            print("Error connecting browser driver")
+            print("Error connecting browser driver. Check the url\n")
+            self.connect = False
 
 
     def scraper_dynamic_page(self, page):
@@ -59,13 +66,15 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
          #Does not return any value
         try:
             self.__connect_browser(page)
-            self.__slow_scroll()     
-            body = self.driver.execute_script("return document.body")
-            page_source = body.get_attribute('innerHTML') 
-            self.driver.quit()
-            return page_source
+
+            if (self.connect):
+                self.__slow_scroll()     
+                body = self.driver.execute_script("return document.body")
+                page_source = body.get_attribute('innerHTML') 
+                self.driver.quit()
+                return page_source
         except:
-            print("Error when performing scraping on dynamic web. check your url")
+            print("Error when performing scraping on dynamic web")
 
     
     def __slow_scroll(self):
