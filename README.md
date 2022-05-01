@@ -29,4 +29,4 @@ Source of the changes you make: https://replit.com/talk/ask/Can-I-use-selenium/1
 
 - In replit run the module main.py
 
-- You can't test dynamic pages in replit because replit overlays the graphical interface and hides the console, making it impossible to see the progress of the program.
+- In Replit do FORK to see the execution of a dynamic page. You need to use the console.
