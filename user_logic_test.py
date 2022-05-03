@@ -7,7 +7,7 @@ def static_page(page):
 
     try:
         scraper = ScraperStaticPage(page)
-        if(scraper.connect):
+        if(scraper.getConnect()):
             perform_search(scraper, page)
         else:
             request_another_url()
