@@ -16,7 +16,7 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
 
         #connect: connection validation
         self.__connect = False
-        __page_result = self.scraper_dynamic_page(page_url)
+        __page_result = self.__scraper_dynamic_page(page_url)
 
         if(self.__connect):
             #super().__init__ Initialize the constructor of the superclass
@@ -53,7 +53,7 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             self.__connect = False
 
 
-    def scraper_dynamic_page(self, page):
+    def __scraper_dynamic_page(self, page):
         #Receive Url
         #execute method __connect_browser()
             #Get the page through the Selenium driver.
