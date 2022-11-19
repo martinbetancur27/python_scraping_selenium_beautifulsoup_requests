@@ -1,44 +1,8 @@
 from scraper_static_page import ScraperStaticPage
 from scraper_dynamic_page import ScraperDynamicPage
+from beautiful_soup import BeautifulSoupPersonalized
 import time
 
-
-def static_page(page):
-
-    try:
-        scraper = ScraperStaticPage(page)
-        if(scraper.getConnect()):
-            perform_search(scraper, page)
-        else:
-            request_another_url()
-    except:
-        print("Error performing static scraping")
-
-
-def dynamic_page(page):
-
-    try:
-        print("\nPlease wait, the page can be very long")
-        scraper = ScraperDynamicPage(page)
-        if(scraper.getConnect()):
-            perform_search(scraper, page)
-        else:
-            request_another_url()
-    except:
-        print("Error when performing dynamic scraping")
-
-
-def request_another_url():
-
-    try:
-        option = input("1. Enter URL\n2. Exit\n---> ")
-        if option == "1":
-            custom_test()
-        else:
-            print("Choice: Exit")
-    except:
-        print("")
-    
 
 def search_options():
 
@@ -92,62 +56,95 @@ def search_options():
         print("Search options error")
 
 
-def perform_search(scraper, page):
+def print_result(contents):
 
-    #Perform the search with methods of beautiful soup
+    print("\n** OUTCOME **\n")
+
+    #Validate if the result is a list to give a more readable impression
+    if isinstance(contents, list):
+        for content in contents:
+            print(content)
+    else:
+        print(contents)
+
+    print("\n*** Search finished ***")
+
+    #Wait 3 seconds
+    time.sleep(3)
+
+
+def static_page_scraper(page):
+
     try:
-        while (True):
-            #search_options return two results.
-            method, search = search_options()
-            
-            #https://www.delftstack.com/howto/python/python-call-function-from-a-string/
-            
-            #Python feature. Ability to call a method with a string.
-                #first parentheses (object, method name)
-                #second parentheses (method parameter)
-            contents = getattr(scraper, method)(search) 
-            
-            print("\n** OUTCOME **\n")
+        print("Choice: static page... " + page)
+        scraper_static_page = ScraperStaticPage(page)
 
-            #Validate if the result is a list to give a more readable impression
-            if isinstance(contents, list):
-                for content in contents:
-                    print(content)
-            else:
-                print(contents)
+        return scraper_static_page.scraper_page()
 
-            print("\n*** Search finished ***")
-
-            #Wait 3 seconds to offer the exit option
-            time.sleep(3)
-            final_option = input("Please enter the number:\n1. Perform another search\n2. Exit\n---> ")
-
-            if final_option == "1":
-                print("Choice: perform another search on: ", page)
-            else:
-                print("Choice: Exit")
-                break
     except:
-        print("Search error")
+        print("Error performing static scraping")
+
+
+def dynamic_page_scraper(page):
+
+    try:
+        print("Choice: dynamic page... " + page)
+        print("\nPlease wait, the page can be very long")
+        scraper_dynamic_page = ScraperDynamicPage(page)
+
+        return scraper_dynamic_page.scraper_page()
+        
+    except:
+        print("Error when performing dynamic scraping")
 
 
 def custom_test():
 
     #The user will choose the page to scrape and the search methods
     try:
-        page_url = input("Enter the URL: ")
+        while(True):
+            page_url = input("Enter the URL: ")
 
-        option_scrape = input("Please enter the number:\n1. Static page\n2. Dynamic page\n---> ")
+            option_scrape = input("Please enter the number:\n1. Static page\n2. Dynamic page\n---> ")
 
-        if(option_scrape == "1"):
-            print("Choice: Static page")
-            static_page(page_url)
+            if(option_scrape == "1"):
+                page_scraped = static_page_scraper(page_url)
+                
+            else:
+                page_scraped = dynamic_page_scraper(page_url)
+                
+            if (page_scraped is None):
+                print("Page Scraped Empty")
+                option_empty = input("1. Enter URL\n2. Exit\n---> ")
+                
+                if (option_empty != "1"):
+                    print("Choice: Exit")
+                    break
+            else:
+                break
 
-        else:
-            print("Choice: Dynamic page")
-            dynamic_page(page_url)
+        return page_url, page_scraped
+
     except:
         print("Custom test failed")
+
+
+def default_test():
+
+    try:
+        default_option = input("Please enter the number:\n1. Test static page\n2. Test dynamic page\n---> ")
+                
+        if default_option == "1":
+            page = "https://hipertextual.com/"
+
+            return page, static_page_scraper(page)
+            
+        else:
+            page = "https://finance.yahoo.com"
+            
+            return page, dynamic_page_scraper(page)
+    except:
+        print("Default test failed")
 
 
 def main():
@@ -158,19 +155,35 @@ def main():
         option = input("Please enter the number:\n1. Default test (example url)\n2. Custom test (your url)\n---> ")
 
         if(option == "1"):
-            #Default Test: Presets
-            default_option = input("Please enter the number:\n1. Test static page\n2. Test dynamic page\n---> ")
-            
-            if default_option == "1":
-                print("Choice: static page... https://hipertextual.com/")
-                static_page("https://hipertextual.com/")
-                
-            else:
-                print("Choice: dynamic page... https://finance.yahoo.com")
-                dynamic_page("https://finance.yahoo.com")
-                
+            page, page_scraped = default_test()
         else:
-            custom_test()
+            page, page_scraped = custom_test()
+        
+        if (page_scraped is not None):
+            
+            search_with_beautiful_soap = BeautifulSoupPersonalized(page_scraped)
+
+            while (True):
+                #search_options return two results.
+                method, search = search_options()
+
+                #https://www.delftstack.com/howto/python/python-call-function-from-a-string/
+                #Python feature. Ability to call a method with a string.
+                #first parentheses (object, method name)
+                #second parentheses (method parameter)
+                contents = getattr(search_with_beautiful_soap, method)(search)
+
+                print_result(contents)
+
+                final_option = input("Please enter the number:\n1. Perform another search: " + page + "\n2. Exit\n---> ")
+
+                if final_option == "1":
+                    print("Choice: perform another search on: ", page)
+                else:
+                    print("Choice: Exit")
+                    break
+        else:
+            print("Scraping is Empty")                    
     except:
         print("bug in the program. Please try again or later")
 

@@ -1,30 +1,15 @@
-#beautiful_soup program module
-from beautiful_soup import BeautifulSoupPersonalized
-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver import ChromeOptions
 import time
 
-class ScraperDynamicPage(BeautifulSoupPersonalized):
-
-    #This class inherits the methods of the BeautifulSoupPersonalized class.
-            #Inherit methods for lookup
+class ScraperDynamicPage:
 
     def __init__(self, page_url):
 
         self.page_url = page_url
-        #connect: connection validation
-        self.__connect = False
-
-        self.__browser_driver_by_selenium = self.__connect_browser()
-        page_result = self.scraper_dynamic_page()
-
-        if(self.__connect):
-            #super().__init__ Initialize the constructor of the superclass
-            super().__init__(page_result)
-        
+       
     
     def __connect_browser(self):
         
@@ -59,8 +44,8 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             self.__connect = False
 
 
-    def scraper_dynamic_page(self):
-        #Receive Url
+    def scraper_page(self):
+        #Url (Constructor)
             #Make scroll 'infinite' and with pause time for
             #allow all content to be loaded.
             #Synchronously run JavaScript in the current window/frame
@@ -69,6 +54,7 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
             #Exit the controller and close all associated windows.
          #Does not return any value
         try:
+            self.__browser_driver_by_selenium = self.__connect_browser()
 
             if (self.__connect):
                 self.__slow_scroll()     
@@ -78,6 +64,7 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
                 return page_source
         except:
             print("Error when performing scraping on dynamic web")
+            return None
 
     
     def __slow_scroll(self):
@@ -110,7 +97,3 @@ class ScraperDynamicPage(BeautifulSoupPersonalized):
                 iter += 1
         except:
             print("Error when performing dynamic scroll")
-
-
-    def getConnect(self):
-        return self.__connect
